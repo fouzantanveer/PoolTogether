@@ -99,3 +99,21 @@ The allocation of prizes based on the random number $(R)$ is achieved by mapping
 
 This RNG mechanism, underpinned by cryptographic security and probabilistic fairness, ensures that the distribution of prizes in PoolTogether is both unpredictable and equitable, directly rewarding the magnitude and duration of participants' contributions to the pool.
 
+[![RNG.png](https://i.postimg.cc/kg0Y47VB/RNG.png)](https://postimg.cc/zykF2ZFr)
+
+
+
+## Other Functionalities of this Project
+
+Diving deeper with a focus on the underlying logic and mathematical aspects, the **PrizeVaultFactory**, **Hook Management**, and **Prize Claiming** functionalities within the PoolTogether V5 project embody sophisticated mechanisms that facilitate its decentralized finance operations. 
+
+### Vault Factories
+The **PrizeVaultFactory** employs a CREATE2 opcode for deterministic deployment of PrizeVault contracts. This approach enables predictable contract addresses, enhancing user trust and interaction predictability within the ecosystem. The `deployVault` function intricately weaves together the parameters necessary for vault creation, setting a foundation for yield generation through ERC4626-compliant yield vaults. The initialization of a `YIELD_BUFFER` during vault deployment is a preemptive measure to counteract the minuscule but inevitable rounding discrepancies inherent in token exchanges and yield accrual. This buffer is mathematically calculated to ensure that the yield generated over time compensates for these losses without diluting the prize pool's integrity.
+
+### Hook Management
+The **Hook Management** system introduces a layered customization framework allowing users to embed personalized logic into the prize claiming process. This system operates on a delegate call mechanism, where pre-defined hooks (before and after prize claims) can invoke external contracts. This delegation is contingent upon gas stipulations (`HOOK_GAS` limit) to mitigate unbounded execution costs, demonstrating a careful balance between flexibility and system integrity. The hooks enable a dynamic interaction model, wherein the external contracts can execute complex operations like reinvestment strategies, conditional checks, or even external notifications, all parameterized by the winner's context and the prize details.
+
+### Prize Claiming
+The **Prize Claiming** process is central to the PoolTogether mechanism, integrating tightly with the TWAB (Time-Weighted Average Balance) system to allocate prizes fairly. The mathematical logic underpinning this system ensures that the probability of winning is proportional to the duration and amount of a participant's deposit, encapsulated in the TWAB calculation. The `claimPrize` function extends this logic by implementing checks and balances, including validation of claim eligibility and execution of user-defined hooks, ensuring that the prize distribution not only adheres to the deterministic fairness model but also accommodates for extensible engagement through external hooks.
+
+The integration of these functionalities within PoolTogether V5 reflects a deep intertwining of deterministic logic, financial modeling, and extensible contract interactions. It underscores the project's commitment to fostering a secure, fair, and dynamic DeFi ecosystem, wherein the mathematical rigor ensures equity and the architectural design encourages user engagement and ecosystem growth.
